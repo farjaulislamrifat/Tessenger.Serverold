@@ -1,0 +1,6 @@
+@Tessenger.Server_HostAddress = http://localhost:5157
+
+GET {{Tessenger.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
