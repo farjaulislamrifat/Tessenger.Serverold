@@ -103,7 +103,19 @@ namespace Tessenger.Server.Hubs
             await Clients.Clients(user.Value).SendAsync("FriendReceiveMessage", username, id);
         }
 
-                                                    
+        public async Task CallRoomSender(string SenderUsername, string RoomId, bool isVideoCall, bool IsGroup , string ReceiverUsername = "")
+        {
+            if (!IsGroup)
+            {
+                var user = User.FirstOrDefault(c => c.Key == ReceiverUsername);
+                await Clients.Clients(user.Value).SendAsync("CallRoomReceiver", SenderUsername, RoomId , isVideoCall , IsGroup);
+            }
+            else
+            {
+
+            }
+        }
+
 
 
 
