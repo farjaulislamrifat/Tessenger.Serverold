@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Graph.Models;
 using System.Text;
 using Tessenger.Server.Data;
+using Tessenger.Server.Models;
 
 namespace Tessenger.Server.Hubs
 {
@@ -117,11 +118,10 @@ namespace Tessenger.Server.Hubs
         }
 
 
-
-
-
-
-
+        public async Task GroupSendMessage(string gusername , GroupChat groupChat)
+        {
+           await Clients.Group(gusername).SendAsync("GroupMessageReceive", gusername, groupChat);
+        }
 
     }
 }

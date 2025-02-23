@@ -41,10 +41,20 @@ namespace Tessenger.Server.Controller
 
             return Ok(groupChat);
         }
-        [HttpGet("GetGroupChat_LastChat_ByGusernameAndSender/{Gusername},{Sender}")]
-        public async Task<ActionResult<List<GroupChat>>> GetGroupChat_LastChat_ByGusernameAndSender(string Gusername, string Sender)
+        [HttpGet("GetGroupChat_LastChat_ByGusernameAndSender/{Gusername}")]
+        public async Task<ActionResult<GroupChat>> GetGroupChat_LastChat_ByGusernameAndSender(string Gusername)
         {
-            var groupChat = (await _context.CreateDbContextAsync()).GroupChat.Where(c => c.GroupUsername == Gusername && c.Sendusername == Sender).ToList().Last();
+            var groupChat = (await _context.CreateDbContextAsync()).GroupChat.Where(c => c.GroupUsername == Gusername).ToList().Last();
+            if (groupChat == null)
+            {
+                return NotFound();
+            }
+            return Ok(groupChat);
+        }
+        [HttpGet("GetGroupChat_LastChat_ByGusernameAndSender/{Gusername},{SenderUsername}")]
+        public async Task<ActionResult<GroupChat>> GetGroupChat_LastChat_ByGusernameAndSender(string Gusername , string SenderUsername)
+        {
+            var groupChat = (await _context.CreateDbContextAsync()).GroupChat.Where(c => c.GroupUsername == Gusername && c.Sendusername == SenderUsername).ToList().Last();
             if (groupChat == null)
             {
                 return NotFound();
@@ -53,7 +63,7 @@ namespace Tessenger.Server.Controller
         }
 
         [HttpGet("GetGroupChat_WithCount_ByGusername/{gusername},{start},{count}")]
-        public async Task<ActionResult<List<GroupChat>>> GetGroupChat_LastChat_ByGusernameAndSender(string gusername, int start, short count)
+        public async Task<ActionResult<List<GroupChat>>> GetGroupChat_LastChat_ByGusernameAndSender(string gusername, int start, int count)
         {
             var groupChat = (await _context.CreateDbContextAsync()).GroupChat.Where(c => c.GroupUsername == gusername).Skip(start).Take(count).ToList();
             if (groupChat == null)
